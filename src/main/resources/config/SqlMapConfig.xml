@@ -14,19 +14,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.postgresql.Driver"/>
-            	<property name="url" value="jdbc:postgresql://211.168.199.244:5432/optimizer"/>
+            	<property name="url" value="jdbc:postgresql://127.0.0.1/postgres"/>
                 <property name="username" value="wellconn"/>
-                <property name="password" value="dbdnpfzjs1!"/>
-            </dataSource>
-        </environment>
-        
-        <environment id="mbuster">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://192.168.0.190:5432/mbuster"/>
-                <property name="username" value="stclab"/>
-                <property name="password" value="dbdnpfzjs1!"/>
+                <property name="password" value="password"/>
             </dataSource>
         </environment>
     </environments>
