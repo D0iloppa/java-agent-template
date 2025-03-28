@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- MyBatis type alias 지정 -->
+    <typeAliases>
+		<typeAlias alias="hmap" type="java.util.HashMap" />
+		<typeAlias alias="map" type="java.util.Map" />
+		<typeAlias alias="list" type="java.util.List" />
+	</typeAliases>
+
+ 	<!-- DB 환경 구성 -->
+     <environments default="agent">
+        <environment id="agent">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="org.postgresql.Driver"/>
+            	<property name="url" value="jdbc:postgresql://127.0.0.1/postgres"/>
+                <property name="username" value="wellconn"/>
+                <property name="password" value="password"/>
+            </dataSource>
+        </environment>
+    </environments>
+    
+    <!-- sql mapper 지정 -->
+    <!-- dao를 사용할 때, 파일명이 아닌 해당 파일에 지정된 namespace가 key값 -->
+   	<mappers>
+        <mapper resource="sql/AgentSql.xml"/>
+    </mappers>
+    
+ 
+</configuration>
