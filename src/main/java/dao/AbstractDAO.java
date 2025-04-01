@@ -40,43 +40,73 @@ public abstract class AbstractDAO {
     
     // default 함수
     public <T> List<T> selectList(String mapperId, Object param) {
+    	clearCache();
         return sqlSession.selectList(mapperId, param);
     }
 
     public <T> List<T> selectList(String mapperId) {
+    	clearCache();
         return sqlSession.selectList(mapperId);
     }
     
 	public Object selectOne(String mapperId, Object param) {
+		clearCache();
 		return sqlSession.selectOne(mapperId, param);
 	}
 	
 	public Object selectOne(String mapperId) {
+		clearCache();
 		return sqlSession.selectOne(mapperId);
 	}
 	
 	public int insert(String mapperId, Object param) {
-	    return sqlSession.insert(mapperId, param);
+		clearCache();
+		
+		
+		int chk = sqlSession.insert(mapperId, param);
+		if(chk>0) commit();
+	    return chk;
 	}
 	
 	public int insert(String mapperId) {
-	    return sqlSession.insert(mapperId);
+		clearCache();
+		
+		int chk = sqlSession.insert(mapperId);
+		if(chk>0) commit();
+		
+	    return chk;
 	}
 
 	public int update(String mapperId, Object param) {
-	    return sqlSession.update(mapperId, param);
+		clearCache();
+		
+		int chk = sqlSession.update(mapperId, param);
+		if(chk>0) commit();
+	    return chk;
 	}
 	
 	public int update(String mapperId) {
-	    return sqlSession.update(mapperId);
+		clearCache();
+		
+		int chk = sqlSession.update(mapperId); 
+		if(chk>0) commit();
+	    return chk;
 	}
 
 	public int delete(String mapperId, Object param) {
-	    return sqlSession.delete(mapperId, param);
+		clearCache();
+		
+		int chk = sqlSession.delete(mapperId, param); 
+		if(chk>0) commit();
+	    return chk;
 	}
 	
 	public int delete(String mapperId) {
-	    return sqlSession.delete(mapperId);
+		clearCache();
+		
+		int chk = sqlSession.delete(mapperId);
+		if(chk>0) commit();
+	    return chk;
 	}
 
 

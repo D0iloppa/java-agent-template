@@ -46,7 +46,7 @@ public class AgentInitializer {
 	                ? new SqlSessionFactoryBuilder().build(reader)
 	                : new SqlSessionFactoryBuilder().build(reader, envId);
 
-	            return factory.openSession();
+	            return factory.openSession(true);
 	        }
 	    }
 }
