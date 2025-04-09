@@ -11,7 +11,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-
 import dao.AgentDAO;
 
 
@@ -26,6 +25,33 @@ public class AgentInitializer {
 	    public static AppConfig config;
 	    public static AgentDAO dao;
 
+	   
+	    
+	    
+	    static class DBObject {
+			SqlSession sqlSession;
+			SqlSessionFactory sqlSessionFactory;
+			
+			public DBObject() {
+				super();
+			}
+			
+			public SqlSession getSqlSession() {
+				return sqlSession;
+			}
+			public void setSqlSession(SqlSession sqlSession) {
+				this.sqlSession = sqlSession;
+			}
+			public SqlSessionFactory getSqlSessionFactory() {
+				return sqlSessionFactory;
+			}
+			public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+				this.sqlSessionFactory = sqlSessionFactory;
+			}
+		}
+	    
+	    
+	    
 	    public static void initialize(String configPath, String dbConfigPath, String envId) throws Exception {
 	        // 설정 파일 로딩
 	        config = new AppConfig(configPath);
@@ -36,17 +62,40 @@ public class AgentInitializer {
 	        AgentLogger.log("AGENT IS STARTED");
 
 	        // DB 초기화
-	        SqlSession dbSession = getDB(dbConfigPath, envId);
-	        dao = new AgentDAO(dbSession);
+	        DBObject db = getDB(dbConfigPath, envId);
+	        dao = new AgentDAO(db.getSqlSessionFactory(), db.getSqlSession());
 	    }
+		
+		/**
+		 * 
+		 * 1. 메소드명 : getDB
+		 * 2. 작성일: 2025. 4. 9.
+		 * 3. 작성자: doil
+		 * 4. 설명: 세션팩토토리를 함께 전달
+		 * 5. 수정일: doil
+		 */
+		private static DBObject getDB(String rssPath, String envId) throws IOException {
 
-	    private static SqlSession getDB(String rssPath, String envId) throws IOException {
-	        try (Reader reader = Resources.getResourceAsReader(rssPath)) {
-	            SqlSessionFactory factory = (envId == null)
-	                ? new SqlSessionFactoryBuilder().build(reader)
-	                : new SqlSessionFactoryBuilder().build(reader, envId);
+			DBObject result = new DBObject();
+			
+			try (Reader reader = Resources.getResourceAsReader(rssPath)) {
+				
+				SqlSessionFactory sqlSessionFactory = (envId == null) ?
+						new SqlSessionFactoryBuilder().build(reader) : 
+						new SqlSessionFactoryBuilder().build(reader, envId);
+				
+				result.setSqlSessionFactory(sqlSessionFactory);
 
-	            return factory.openSession(true);
-	        }
-	    }
+				SqlSession sqlSession = sqlSessionFactory.openSession(false);
+				
+				result.setSqlSession(sqlSession);
+				
+				return result;
+		
+			} catch (IOException e) {
+				throw e;
+			}
+		
+		}
+
 }

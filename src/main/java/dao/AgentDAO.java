@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
  * @author doil
@@ -17,8 +18,8 @@ public class AgentDAO extends AbstractDAO{
 	/**
 	 * @param sqlSession
 	 */
-	public AgentDAO(SqlSession sqlSession) {
-		super(sqlSession);
+	public AgentDAO(SqlSessionFactory factory, SqlSession sqlSession) {
+		super(factory, sqlSession);
 	}
 
 		/**
